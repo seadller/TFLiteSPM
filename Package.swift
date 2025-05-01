@@ -13,19 +13,15 @@ let package = Package(
             targets: ["MyTFLiteWrapper"]
         )
     ],
+    dependencies: [
+        .package(url: "https://github.com/kewlbear/TensorFlowLiteSwift.git", branch: "master")
+    ],
     targets: [
         .target(
             name: "MyTFLiteWrapper",
-            dependencies: [],
+            dependencies: ["TensorFlowLiteSwift"],
             path: "Sources/MyTFLiteWrapper",
-            resources: [],
-            linkerSettings: [
-                .linkedFramework("TensorFlowLiteSwift")
-            ]
-        ),
-        .binaryTarget(
-            name: "TensorFlowLiteSwift",
-            path: "./TensorFlowLiteSwift.xcframework"
+            resources: []
         )
     ]
 )

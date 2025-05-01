@@ -35,19 +35,23 @@ public class ModelRunner {
         }
 
         do {
-            let inputTensor = try interpreter.input(at: 0)
-            let data = Data(copyingBufferOf: inputData)
+            // Convert the inputData array to Data
+            let data = inputData.withUnsafeBufferPointer { buffer in
+                Data(buffer: buffer)
+            }
 
             try interpreter.copy(data, toInputAt: 0)
             try interpreter.invoke()
 
             let outputTensor = try interpreter.output(at: 0)
             return outputTensor.data.toArray(type: Float32.self)
+
         } catch {
             print("Error during model inference: \(error)")
             return nil
         }
     }
+
 
     private func downloadModelIfNeeded(fileName: String, completion: @escaping (String?) -> Void) {
         let fileManager = FileManager.default
